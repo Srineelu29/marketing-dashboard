@@ -1,0 +1,243 @@
+table Sheet1
+	lineageTag: 1e529b7d-468f-4750-8508-2acc2deff55b
+
+	measure CTR =
+			
+			DIVIDE( SUM('Sheet1'[Clicks]), SUM('Sheet1'[Impressions]) )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: db0acadb-9680-483a-a5aa-711f33daf43f
+
+	measure 'Campaign Count' = ```
+			DISTINCTCOUNT ( Sheet1[Campaign_ID] )
+			
+			```
+		formatString: 0
+		lineageTag: b98a7680-e652-47fd-ae28-132859fffc6d
+
+	measure 'Total Clicks' = ```
+			SUM ( Sheet1[Clicks] )
+			
+			```
+		formatString: 0
+		lineageTag: 37c00c4b-4c93-4fb5-b46b-e5cbb96e6564
+
+	measure 'Total Impressions' = ```
+			SUM ( Sheet1[Impressions] )
+			
+			```
+		formatString: 0
+		lineageTag: 051c615f-c16c-46c6-a6e0-77347155d685
+
+	measure 'Avg Engagement' = AVERAGE ( Sheet1[Engagement_Score] )
+		formatString: 0
+		lineageTag: b2494cb0-0826-4c53-95f2-63abdc8d007e
+
+	measure 'Avg ROI' = AVERAGE ( Sheet1[ROI] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f38fa3b8-ce03-4d3c-a123-a13f635af5e9
+
+	measure 'Avg Conversion Rate' = AVERAGE ( Sheet1[Conversion_Rate] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 95146b6a-ad59-4997-ab05-75723742f074
+
+	measure 'Weighted Conversion Rate' =
+			
+			DIVIDE(
+			    SUMX( Sheet1, Sheet1[Conversion_Rate] * Sheet1[Impressions] ),
+			    [Total Impressions])
+		lineageTag: ba66e966-121d-421f-940d-eaf30a227986
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Campaign_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b5d4f7c-c284-4765-a7db-2076c7e0bc88
+		summarizeBy: count
+		sourceColumn: Campaign_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		lineageTag: 1edd9718-5905-4fd1-882c-674b2ecb0d36
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Campaign_Type
+		dataType: string
+		lineageTag: 06913dc1-590b-42b7-a03e-d9343e8508a6
+		summarizeBy: none
+		sourceColumn: Campaign_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target_Audience
+		dataType: string
+		lineageTag: b606b80b-57c2-4ca7-bb37-efeeee0a426b
+		summarizeBy: none
+		sourceColumn: Target_Audience
+
+		annotation SummarizationSetBy = Automatic
+
+	column Duration_Days
+		dataType: int64
+		formatString: 0
+		lineageTag: a8e5f5b2-92bb-419c-848f-847caaab1cb4
+		summarizeBy: sum
+		sourceColumn: Duration_Days
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel_Used
+		dataType: string
+		lineageTag: 31e02d27-ce72-4f17-871f-69d8a87c74f3
+		summarizeBy: none
+		sourceColumn: Channel_Used
+
+		annotation SummarizationSetBy = Automatic
+
+	column Conversion_Rate
+		dataType: double
+		lineageTag: 44aa44b4-7682-49b2-9ef6-994a1f7d6325
+		summarizeBy: sum
+		sourceColumn: Conversion_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Acquisition_Cost
+		dataType: int64
+		formatString: 0
+		lineageTag: 29f650e4-f8bc-41e0-9f7e-e02edfde31d6
+		summarizeBy: sum
+		sourceColumn: Acquisition_Cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROI
+		dataType: double
+		lineageTag: 4d4b261c-e358-4b04-b222-b66fedefa27f
+		summarizeBy: sum
+		sourceColumn: ROI
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Location
+		dataType: string
+		lineageTag: e48d530f-f6d4-445f-969c-19186acba057
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Language
+		dataType: string
+		lineageTag: ed349a2a-7f49-47b1-9383-71ba27fb5086
+		summarizeBy: none
+		sourceColumn: Language
+
+		annotation SummarizationSetBy = Automatic
+
+	column Clicks
+		dataType: int64
+		formatString: 0
+		lineageTag: a18ae512-06c5-46af-bb83-9ee8b97db533
+		summarizeBy: sum
+		sourceColumn: Clicks
+
+		annotation SummarizationSetBy = Automatic
+
+	column Impressions
+		dataType: int64
+		formatString: 0
+		lineageTag: fa3db904-4bc0-4c05-840a-f953a1183435
+		summarizeBy: sum
+		sourceColumn: Impressions
+
+		annotation SummarizationSetBy = Automatic
+
+	column Engagement_Score
+		dataType: int64
+		formatString: 0
+		lineageTag: 70c62eef-d5ac-44e5-97f5-205e2c74f044
+		summarizeBy: sum
+		sourceColumn: Engagement_Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_Segment
+		dataType: string
+		lineageTag: 46b8044e-5d01-4dbc-b592-f59ad9fb9283
+		summarizeBy: none
+		sourceColumn: Customer_Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9ed4d534-28c7-4652-a5b6-acb6dbe43517
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 9a4c29b2-dd6f-46c1-b279-bfdb31b8da21
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 277708c9-775c-4227-8c1e-a979d27ef3ad
+		summarizeBy: sum
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Name of the Month'
+		dataType: string
+		lineageTag: ef144d04-8606-4fa2-ab7b-de0fc336e9d6
+		summarizeBy: none
+		sourceColumn: Name of the Month
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sheet1 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\srine\Downloads\Standerzited Data.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Campaign_ID", Int64.Type}, {"Company", type text}, {"Campaign_Type", type text}, {"Target_Audience", type text}, {"Duration_Days", Int64.Type}, {"Channel_Used", type text}, {"Conversion_Rate", type number}, {"Acquisition_Cost", Int64.Type}, {"ROI", type number}, {"Location", type text}, {"Language", type text}, {"Clicks", Int64.Type}, {"Impressions", Int64.Type}, {"Engagement_Score", Int64.Type}, {"Customer_Segment", type text}, {"Date", type date}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "Date", "Date - Copy"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"Date - Copy", "Year"}}),
+				    #"Extracted Year" = Table.TransformColumns(#"Renamed Columns",{{"Year", Date.Year, Int64.Type}}),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Extracted Year", "Date", "Date - Copy"),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Duplicated Column1",{{"Date - Copy", "Month"}}),
+				    #"Extracted Month" = Table.TransformColumns(#"Renamed Columns1",{{"Month", Date.Month, Int64.Type}}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Extracted Month",{{"Month", "Month Number"}}),
+				    #"Duplicated Column2" = Table.DuplicateColumn(#"Renamed Columns2", "Date", "Date - Copy"),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Duplicated Column2",{{"Date - Copy", "Name of the Month"}}),
+				    #"Extracted Month Name" = Table.TransformColumns(#"Renamed Columns3", {{"Name of the Month", each Date.MonthName(_), type text}})
+				in
+				    #"Extracted Month Name"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

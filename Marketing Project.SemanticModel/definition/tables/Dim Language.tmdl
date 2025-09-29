@@ -1,0 +1,39 @@
+table 'Dim Language'
+	lineageTag: 52080910-118a-4a1d-b2b4-a5a413ca51c1
+
+	column Language
+		dataType: string
+		lineageTag: 84a189b6-c5b1-4671-9c66-8f0083b0e9be
+		summarizeBy: none
+		sourceColumn: Language
+
+		annotation SummarizationSetBy = Automatic
+
+	column Language_Key
+		dataType: int64
+		formatString: 0
+		lineageTag: 84157752-f9d7-4bbb-8943-22613a533d57
+		summarizeBy: none
+		sourceColumn: Language_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Language' = m
+		mode: import
+		source =
+				let
+				    Source = Sheet1,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Language"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Trimmed Text" = Table.TransformColumns(#"Removed Duplicates",{{"Language", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"Language", Text.Clean, type text}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Cleaned Text", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Language_Key"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Language_Key", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

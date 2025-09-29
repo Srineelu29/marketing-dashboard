@@ -1,0 +1,39 @@
+table 'Dim Customer Segment'
+	lineageTag: 368c90cc-f8f7-4b4d-8c18-1c68fb85ad31
+
+	column 'Customer Segment'
+		dataType: string
+		lineageTag: 993110e5-fdcf-4dd9-acfc-830f6a4a9aca
+		summarizeBy: none
+		sourceColumn: Customer Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_Segment_Key
+		dataType: int64
+		formatString: 0
+		lineageTag: 441c6aa9-4d88-43e0-8034-748829e38b53
+		summarizeBy: none
+		sourceColumn: Customer_Segment_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Customer Segment' = m
+		mode: import
+		source =
+				let
+				    Source = Sheet1,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Customer_Segment"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Trimmed Text" = Table.TransformColumns(#"Removed Duplicates",{{"Customer_Segment", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"Customer_Segment", Text.Clean, type text}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Cleaned Text", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Customer_Segment_Key"}, {"Customer_Segment", "Customer Segment"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Customer_Segment_Key", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

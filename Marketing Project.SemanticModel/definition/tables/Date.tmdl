@@ -1,0 +1,59 @@
+table Date
+	lineageTag: f0cf9c0e-01ad-45f2-9fef-ce887cc6e224
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: General Date
+		lineageTag: 802e5e6a-b4e8-42b8-8cea-23b791c153af
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year = ```
+			YEAR('Date'[Date])
+			
+			```
+		formatString: 0
+		lineageTag: d66cdebd-9bc9-4c60-8846-31fa11e413e5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number' = MONTH('Date'[Date])
+		formatString: 0
+		lineageTag: 4c7b13e3-88a0-4de8-96c4-ecaa01c89f48
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name' = ```
+			FORMAT('Date'[Date], "MMMM")
+			
+			```
+		lineageTag: 4fb4a7e2-a62a-4e7b-9194-dda2c4998310
+		summarizeBy: none
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter = ```
+			"Q" & FORMAT('Date'[Date], "Q")
+			
+			```
+		lineageTag: 19d318a7-2188-4757-a4f4-b649379e9c80
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = calculated
+		mode: import
+		source = ```
+				CALENDARAUTO()
+				
+				```
+
+	annotation PBI_Id = ccbbd9204e57485ab26bcdf53da32e23
+

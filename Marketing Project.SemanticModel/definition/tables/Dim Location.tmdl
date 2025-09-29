@@ -1,0 +1,39 @@
+table 'Dim Location'
+	lineageTag: be526cec-531e-42b3-b105-2ae2b5b10878
+
+	column Location
+		dataType: string
+		lineageTag: be45de96-6a9d-494e-829e-45798c3b32ff
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location_Key
+		dataType: int64
+		formatString: 0
+		lineageTag: a2c1e9be-5152-478d-854b-1e6ae28b156d
+		summarizeBy: none
+		sourceColumn: Location_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Location' = m
+		mode: import
+		source =
+				let
+				    Source = Sheet1,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Location"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Trimmed Text" = Table.TransformColumns(#"Removed Duplicates",{{"Location", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"Location", Text.Clean, type text}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Cleaned Text", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Location_Key"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Location_Key", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,39 @@
+table 'Dim Company'
+	lineageTag: a8791149-e775-47db-9bba-f4280349e8af
+
+	column Company
+		dataType: string
+		lineageTag: 5007f224-5d52-4891-a496-b46b8d0a1431
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company_key
+		dataType: int64
+		formatString: 0
+		lineageTag: e82abe86-8e55-4394-bd3c-d58a788bd856
+		summarizeBy: none
+		sourceColumn: Company_key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Company' = m
+		mode: import
+		source =
+				let
+				    Source = Sheet1,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Company"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Trimmed Text" = Table.TransformColumns(#"Removed Duplicates",{{"Company", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"Company", Text.Clean, type text}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Cleaned Text", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Company_key"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Company_key", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

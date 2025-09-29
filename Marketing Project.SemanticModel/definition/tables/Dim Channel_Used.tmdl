@@ -1,0 +1,45 @@
+table 'Dim Channel_Used'
+	lineageTag: c4663325-420c-4c76-ae9e-4eb36cfcfcfd
+
+	column Channel_Used
+		dataType: string
+		lineageTag: d99d5f11-ee55-4b13-8355-a9e9d94904c9
+		summarizeBy: none
+		sourceColumn: Channel_Used
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel_Key
+		dataType: int64
+		formatString: 0
+		lineageTag: 48722afa-a139-4d20-b431-bcc100dffdca
+		summarizeBy: none
+		sourceColumn: Channel_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Channel_Used' = m
+		mode: import
+		source =
+				let
+				    Source = Sheet1,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Channel_Used"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Trimmed Text" = Table.TransformColumns(#"Removed Duplicates",{{"Channel_Used", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"Channel_Used", Text.Clean, type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Cleaned Text",{{"Channel_Used", "Channel"}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Added Index",{{"Index", "Channel_Key"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns1",{{"Channel_Key", Int64.Type}}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Changed Type",{{"Channel", "Channel_Used"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns2",{{"Channel_Used", type text}}),
+				    #"Trimmed Text1" = Table.TransformColumns(#"Changed Type1",{{"Channel_Used", Text.Trim, type text}}),
+				    #"Cleaned Text1" = Table.TransformColumns(#"Trimmed Text1",{{"Channel_Used", Text.Clean, type text}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Cleaned Text1",{{"Channel_Key", Int64.Type}})
+				in
+				    #"Changed Type2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

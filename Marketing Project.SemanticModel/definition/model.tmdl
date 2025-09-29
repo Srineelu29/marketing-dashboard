@@ -1,0 +1,22 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Sheet1","Dim Channel_Used","Dim Company","Dim Location","Dim Customer Segment","Dim Language"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Sheet1
+ref table 'Dim Channel_Used'
+ref table 'Dim Company'
+ref table 'Dim Location'
+ref table 'Dim Customer Segment'
+ref table 'Dim Language'
+ref table Date
+
+ref cultureInfo en-US
+

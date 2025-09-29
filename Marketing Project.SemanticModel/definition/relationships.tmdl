@@ -1,0 +1,24 @@
+relationship AutoDetected_64bd1710-85e6-4198-80e1-185c43c4e38b
+	fromColumn: Sheet1.Company
+	toColumn: 'Dim Company'.Company
+
+relationship AutoDetected_535d549b-2a1b-430a-baaf-fc3872d35197
+	fromColumn: Sheet1.Location
+	toColumn: 'Dim Location'.Location
+
+relationship AutoDetected_fa2d1599-45c3-44e5-b27e-41abd9188959
+	fromColumn: Sheet1.Language
+	toColumn: 'Dim Language'.Language
+
+relationship AutoDetected_eed2119a-caa8-4920-b5db-8e1f6becaf79
+	fromColumn: Sheet1.Customer_Segment
+	toColumn: 'Dim Customer Segment'.'Customer Segment'
+
+relationship 0f66185c-3af6-355e-29eb-0a331f41ef25
+	fromColumn: Sheet1.Date
+	toColumn: Date.Date
+
+relationship da1adc90-c53f-be06-10df-5f81e7748d3b
+	fromColumn: Sheet1.Channel_Used
+	toColumn: 'Dim Channel_Used'.Channel_Used
+
